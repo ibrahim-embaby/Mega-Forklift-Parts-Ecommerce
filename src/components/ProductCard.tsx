@@ -23,7 +23,13 @@ export function ProductCard({ product, productId }: ProductCardProps) {
         <div className="p-4">
           <h3 className="font-medium text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
           <div className="flex items-center justify-between">
-            <span className="text-lg font-bold text-blue-600">{Math.round(Number(product.price.split('$')[1])) * 100} EGP</span>
+            <span className="text-lg font-bold text-blue-600">{Math.round(
+                  Number(
+                    product.details.price
+                      .replace("$", "") // Remove the dollar sign
+                      .replace(",", "") // Remove commas
+                  ) * 100
+                )}{" "} EGP</span>
           </div>
         </div>
       </Link>

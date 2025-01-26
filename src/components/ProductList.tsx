@@ -18,15 +18,22 @@ export function ProductList() {
 
   // Filter and sort products
   const filteredProducts = products
-    .filter(
-      (product) =>
-        selectedCategory === "all" || product.category === selectedCategory
-    )
-    .sort((a, b) => {
-      const priceA = parseFloat(a.price.replace("$", ""));
-      const priceB = parseFloat(b.price.replace("$", ""));
-      return sortOrder === "asc" ? priceA - priceB : priceB - priceA;
-    });
+  .filter(
+    (product) =>
+      selectedCategory === "all" ||
+      product.category.toLowerCase() === selectedCategory.toLowerCase()
+  )
+  .filter((product) => {
+    const price = parseFloat(product.price.replace("$", "").replace(",", ""));
+    return !isNaN(price); // Exclude products with invalid prices
+  })
+  .sort((a, b) => {
+    const priceA = parseFloat(a.price.replace("$", "").replace(",", ""));
+    const priceB = parseFloat(b.price.replace("$", "").replace(",", ""));
+
+    // Sort based on the selected order
+    return sortOrder === "asc" ? priceA - priceB : priceB - priceA;
+  });
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
